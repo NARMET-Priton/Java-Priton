@@ -19,8 +19,7 @@ public class Vigenere {
 			}
 		}
 				
-		String enc = new String (temp);
-		return enc;
+		return new String (temp);
 		
 	}
 
@@ -40,9 +39,7 @@ public class Vigenere {
 			}
 		}
 		
-				
-		String enc = new String (temp);
-		return enc;
+		return new String (temp);
 	}
 	
 
