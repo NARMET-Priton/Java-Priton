@@ -17,8 +17,6 @@ public class Buissnes {
 	  String newEncryption = vigenere.encrypyion(newKey, word);
 	  String newDecryption = vigenere.decrypyion(newKey, newEncryption);
 	  
-	  System.out.println(newKey);
-	  System.out.println(newEncryption);
-	  System.out.println(newDecryption);
+	  console.outputResult(newEncryption, newDecryption,newKey);
 	}
 }
