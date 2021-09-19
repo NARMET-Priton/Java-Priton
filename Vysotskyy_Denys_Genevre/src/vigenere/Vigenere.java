@@ -29,13 +29,13 @@ public class Vigenere {
 		return new String(temp);
 	}
 
-	public String dencrypyion(String key,String word) {
+	public String decrypyion(String key,String word) {
 		char[] temp = new char[word.length()];
 
 		for(int i = 0; i < word.length(); i++) {
 			int temp1 = finder(word.charAt(i)) - finder(key.charAt(i));
 
-			if(temp1<alph.length()) {
+			if(temp1>alph.length()) {
 				temp[i] = alph.charAt(temp1);
 			}else {
 				temp[i] = alph.charAt(temp1 + alph.length());

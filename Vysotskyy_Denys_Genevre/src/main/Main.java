@@ -1,9 +1,14 @@
 package main;
 
+import buissnes.Buissnes;
+
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
+		Buissnes b = new Buissnes();
+		
+		b.init();
 
 	}
 

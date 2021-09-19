@@ -9,17 +9,13 @@ public class Console {
 	
 	public String inputString(){
 		System.out.println("Insert your phrase");
-		String str = scanner.next();
+		String str = scanner.nextLine();
 		return str;
 	}
 	
 	public String inputKey(){
 		System.out.println("Insert your key");
-		String key = scanner.next();
+		String key = scanner.nextLine();
 		return key;
 	}
-	
-	//public void outputMessage(){
-	//	System.out.println();
-	//}
 }
