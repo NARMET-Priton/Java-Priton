@@ -1,4 +1,4 @@
-package com.WlanKasper.vigener;
+package com.WlanKasper.Vigener;
 
 public class Vigener {
 
@@ -60,5 +60,4 @@ public class Vigener {
         }
         return 777;
     }
-
 }

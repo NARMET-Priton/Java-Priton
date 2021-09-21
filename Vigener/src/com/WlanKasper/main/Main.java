@@ -1,6 +1,6 @@
 package com.WlanKasper.main;
 
-import com.WlanKasper.buissnes.Business;
+import com.WlanKasper.Business.Business;
 
 public class Main {
 
@@ -11,6 +11,5 @@ public class Main {
         bus.initCrypto();
 
     }
-
 }
 

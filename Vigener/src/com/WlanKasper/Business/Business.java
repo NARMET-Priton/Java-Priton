@@ -1,19 +1,19 @@
-package com.WlanKasper.buissnes;
+package com.WlanKasper.Business;
 
+import com.WlanKasper.Vigener.Vigener;
 import com.WlanKasper.main.Console;
-import com.WlanKasper.vigener.*;
 
 public class Business {
 
-    private final String key;
-    boolean run = true;
-
-    public Business(String key){
-        this.key = key;
-    }
-
     Vigener vigener = new Vigener();
     Console console = new Console();
+
+    private final String key;
+    private boolean run = true;
+
+    public Business(String key) {
+        this.key = key;
+    }
 
     public void initCrypto() {
 
@@ -28,7 +28,7 @@ public class Business {
             String decrypted = vigener.decrypt(encrypted, newKey);
             console.outputString(decrypted, "Decrypted phrase: ");
 
-            run = console.inputBool("If you want to restart program press 1 or 0 to end: ");
+            run = console.inputBool("If you want to repute program press 1 or 0 to end: ");
         }
     }
 }
