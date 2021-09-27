@@ -34,7 +34,7 @@ public class Matrix {
 
 			for (int index = 0; index < phrase.length(); index++) {
 				int indxPhrase = ALPH.indexOf(phrase.substring(index, (index + 1)));
-				int indexKey = ALPH.indexOf(key.substring( index % key.length(), index % key.length() + 1));
+				int indexKey = ALPH.indexOf(key.substring(index % key.length(), index % key.length() + 1));
 				encryptedPhrase[index] = matrix[indxPhrase][indexKey];
 			}
 			return String.join("", encryptedPhrase);
