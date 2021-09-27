@@ -12,7 +12,7 @@ public class Matrix {
 
 		matrix = new String[ALPH.length()][ALPH.length()];
 		initMatrix();
-		show();
+//		show();
 	}
 
 	private void initMatrix() {
