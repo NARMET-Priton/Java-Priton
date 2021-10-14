@@ -6,8 +6,8 @@ public class Console {
 
 	Scanner scanner = new Scanner(System.in);
 
-	private String key = "";
-	private String phrase = "";
+	private String key;
+	private String phrase;
 
 	//-------------------------------------------------------------------------------
 
@@ -57,11 +57,8 @@ public class Console {
 
 	public boolean checkInputStr(String str) {
 		str = str.stripIndent();
-		
-		if (str == null || str.length() <= 0) {
-			return true;
-		}
-		return false;
+
+		return str == null || str.length() <= 0;
 	}
 
 }
