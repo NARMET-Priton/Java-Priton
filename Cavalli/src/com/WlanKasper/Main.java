@@ -1,50 +1,37 @@
 package com.WlanKasper;
 
-public class Main {
+public class Main
+{
+    public static void main(String[] args)
+    {
+        Horse horse_1 = new Horse("A", Horse.MID_SPEED);
+        Horse horse_2 = new Horse("B", Horse.MAX_SPEED);
+        Horse horse_3 = new Horse("C", Horse.MIN_SPEED);
+        Horse horse_4 = new Horse("D", Horse.MID_SPEED);
+        Horse horse_5 = new Horse("E", Horse.MIN_SPEED);
 
-    private static final int[] handicapArr = {1, 5, 10};
-    private static boolean play = true;
+        horse_1.start();
+        horse_2.start();
+        horse_3.start();
+        horse_4.start();
+        horse_5.start();
 
-    public static void main(String[] args) {
-        Cavallo cavallo_1 = new Cavallo("1", handicapArr[(int) (Math.random() * 3)]);
-        Cavallo cavallo_2 = new Cavallo("2", handicapArr[(int) (Math.random() * 3)]);
-        Cavallo cavallo_3 = new Cavallo("3", handicapArr[(int) (Math.random() * 3)]);
-        Cavallo cavallo_4 = new Cavallo("4", handicapArr[(int) (Math.random() * 3)]);
-        Cavallo cavallo_5 = new Cavallo("5", handicapArr[(int) (Math.random() * 3)]);
+        do
+        {
+            if (horse_1.horseGetDistance() == 100 || horse_2.horseGetDistance() == 100 || horse_3.horseGetDistance() == 100 || horse_4.horseGetDistance() == 100 || horse_5.horseGetDistance() == 100)
+            {
+                System.out.println(horse_1.horseStatus());
+                System.out.println(horse_2.horseStatus());
+                System.out.println(horse_3.horseStatus());
+                System.out.println(horse_4.horseStatus());
+                System.out.println(horse_5.horseStatus());
+                break;
+            }
+        } while (horse_1.isAlive() && horse_2.isAlive() && horse_3.isAlive() && horse_4.isAlive() && horse_5.isAlive());
 
-        cavallo_1.start();
-        cavallo_2.start();
-        cavallo_3.start();
-        cavallo_4.start();
-        cavallo_5.start();
+        horse_1.interrupt();
+        horse_2.interrupt();
+        horse_3.interrupt();
 
-        while (play) {
-            System.out.println("[" + cavallo_1.getNameCavallo() + "]" + "-->" + cavallo_1.getIndexCavallo());
-            System.out.println("[" + cavallo_2.getNameCavallo() + "]" + "-->" + cavallo_2.getIndexCavallo());
-            System.out.println("[" + cavallo_3.getNameCavallo() + "]" + "-->" + cavallo_3.getIndexCavallo());
-            System.out.println("[" + cavallo_4.getNameCavallo() + "]" + "-->" + cavallo_4.getIndexCavallo());
-            System.out.println("[" + cavallo_5.getNameCavallo() + "]" + "-->" + cavallo_5.getIndexCavallo());
-
-            if (cavallo_1.getIndexCavallo() == 49) {
-                System.out.println(cavallo_1.getNameCavallo() + " ha vinto!!!");
-                play = false;
-            }
-            if (cavallo_2.getIndexCavallo() == 49) {
-                System.out.println(cavallo_2.getNameCavallo() + " ha vinto!!!");
-                play = false;
-            }
-            if (cavallo_3.getIndexCavallo() == 49) {
-                System.out.println(cavallo_3.getNameCavallo() + " ha vinto!!!");
-                play = false;
-            }
-            if (cavallo_4.getIndexCavallo() == 49) {
-                System.out.println(cavallo_4.getNameCavallo() + " ha vinto!!!");
-                play = false;
-            }
-            if (cavallo_5.getIndexCavallo() == 49) {
-                System.out.println(cavallo_5.getNameCavallo() + " ha vinto!!!");
-                play = false;
-            }
-        }
     }
 }
