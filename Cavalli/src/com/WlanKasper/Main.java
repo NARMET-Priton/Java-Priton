@@ -32,6 +32,8 @@ public class Main
         horse_1.interrupt();
         horse_2.interrupt();
         horse_3.interrupt();
+        horse_4.interrupt();
+        horse_5.interrupt();
 
     }
 }
