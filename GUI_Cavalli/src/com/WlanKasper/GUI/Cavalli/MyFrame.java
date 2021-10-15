@@ -5,23 +5,15 @@ import java.awt.*;
 
 public class MyFrame extends JFrame {
 
+    public static final int WIDTH_FRAME = 1001;
+    public static final int HEIGHT_FRAME = 651;
+
     public MyFrame(){
-
-        this.setTitle("Cavalli GUI");                                    // Название фрейма
-        this.getContentPane().setBackground(Color.GRAY);                 // Изменить фон (default) фрейма
-//      frame.getContentPane().setBackground(new Color(123,124,111));    // Изменить фон (RGB) фрейма
-
-        this.setSize(420, 420);  // задать размер по x, y
-        this.setResizable(false);             // запретить растягивать фрейм
-        this.setVisible(true);                // включить видимость фрейма
-
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);     // Завершает работу потока при закрытии фрейма
-//      frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);    // Завершает работу потока при закрытии фрейма
-
-//      ImageIcon titleLogo = new ImageIcon("/Users/arthursmirnov/Documents/Local-Projects/GUI_Cavalli/img/logo.png");   // создать объект фото
-//      frame.setIconImage(titleLogo.getImage());
-
-        // Слишком большой размер img
+        this.setTitle("Cavalli GUI");
+        this.getContentPane().setBackground(Color.GRAY);
+        this.setSize(WIDTH_FRAME, HEIGHT_FRAME);
+        this.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
     }
-
 }
