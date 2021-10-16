@@ -8,14 +8,12 @@ public class MyFrame extends JFrame {
 
 
     public MyFrame(){
-        this.setTitle("Hiyeta");
+        this.setLayout(null);
+        this.setTitle("Spermasive gomez");
         this.setVisible(true);
-        this.setSize(500,500);
+        this.setSize(1500,1500);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.getContentPane().setBackground(new Color(125,50,125));
-    }
-
-    public void addLabel(JLabel label){
-        this.add(label);
+        this.getContentPane().setBackground(new Color(222,255,255));
+        //this.setResizable(false);
     }
 }
