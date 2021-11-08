@@ -1,4 +1,4 @@
-package com.Edinorig.GUICavalli;
+package com.Edinorig.NewCavalli;
 
 import javax.swing.*;
 

@@ -1,28 +1,28 @@
-package com.Edinorig.GUICavalli;
+package com.Edinorig.NewCavalli;
 
 public class Horse extends Thread {
 
     MyLabel label ;
 
     int handicap;
-    int indexHourse;
+    int indexHourse ;
     int axisY;
 
     public Horse(MyLabel l, int y) {
-        handicap = (int) (Math.random() * 5);
+        handicap = (int) (Math.random() * 5+1);
+        indexHourse = (int) (Math.random() * 5);
         label = l;
         axisY = y;
     }
 
     public void run() {
-        for (indexHourse = 0; indexHourse < 100; indexHourse++) {
+        for (indexHourse = 0; indexHourse < 120; indexHourse++) {
             System.out.println(Thread.currentThread().getName());   // выводит название работающего потока
-             label.setBounds(indexHourse*handicap, axisY, 150,150);
+             label.moveHorse();
             try {
                 Thread.currentThread().sleep(100 * handicap);
             } catch (InterruptedException e) {
-                //e.printStackTrace();
-                break;
+                //e.printStackTrace()
             }
         }
         // при выходе из цикла поток умрет
