@@ -12,8 +12,9 @@ public class GamePanel extends JPanel implements Runnable{
     static final int GAME_HEIGHT = (int) (GAME_WIDTH * (0.5555));
     static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
     static final int BALL_DIAMETER = 20;
-    static final int PADDLE_WIDTH = 25;
-    static final int PADDLE_HEIGHT = 100;
+    static final int PADDLE_WIDTH = 100;
+    static final int PADDLE_HEIGHT = 25;
+
     Thread gameThread;
     Image image;
     Graphics graphics;
@@ -36,13 +37,15 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void newBall () {
-        random = new Random();
-        ball = new Ball((GAME_WIDTH / 2) - (BALL_DIAMETER / 2), random.nextInt(GAME_HEIGHT - BALL_DIAMETER), BALL_DIAMETER, BALL_DIAMETER);
+//        random = new Random();
+        ball = new Ball(paddle1.x, paddle1.y + BALL_DIAMETER, BALL_DIAMETER, BALL_DIAMETER);
     }
 
     public void newPaddles () {
-        paddle1 = new Paddle(0, (GAME_HEIGHT / 2) - (PADDLE_HEIGHT / 2), PADDLE_WIDTH, PADDLE_HEIGHT, 1);
-        paddle2 = new Paddle(GAME_WIDTH - PADDLE_WIDTH, (GAME_HEIGHT / 2) - (PADDLE_HEIGHT / 2), PADDLE_WIDTH, PADDLE_HEIGHT, 2);
+        //TOP
+        paddle2 = new Paddle(GAME_WIDTH/2 - (PADDLE_WIDTH / 2), 0, PADDLE_WIDTH, PADDLE_HEIGHT, 2);
+        // BOT
+        paddle1 = new Paddle(GAME_WIDTH/2 - (PADDLE_WIDTH / 2), GAME_HEIGHT - PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT, 1);
     }
 
     public void paint (Graphics g) {
@@ -67,52 +70,36 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void checkCollision () {
-        //bounce ball off top & bottom window edges
-        if (ball.y <= 0) {
-            ball.setYDirection(-ball.yVelocity);
-        }
 
         if (ball.y >= GAME_HEIGHT - BALL_DIAMETER) {
-            ball.setYDirection(-ball.yVelocity);
-        }
-        //bounce ball off paddles
-        if (ball.intersects(paddle1)) {
-            ball.xVelocity = Math.abs(ball.xVelocity);
-            ball.xVelocity++; //optional for more difficulty
-            if (ball.yVelocity > 0) ball.yVelocity++; //optional for more difficulty
-            else ball.yVelocity--;
-            ball.setXDirection(ball.xVelocity);
-            ball.setYDirection(ball.yVelocity);
+            newBall();
+
         }
 
         if (ball.intersects(paddle2)) {
-            ball.xVelocity = Math.abs(ball.xVelocity);
-            ball.xVelocity++; //optional for more difficulty
-            if (ball.yVelocity > 0) ball.yVelocity++; //optional for more difficulty
-            else ball.yVelocity--;
-            ball.setXDirection(-ball.xVelocity);
-            ball.setYDirection(ball.yVelocity);
+            newBall();
+            score.player++;
         }
 
         //stops paddles at window edges
-        if (paddle1.y <= 0) paddle1.y = 0;
-        if (paddle1.y >= (GAME_HEIGHT - PADDLE_HEIGHT)) paddle1.y = GAME_HEIGHT - PADDLE_HEIGHT;
-        if (paddle2.y <= 0) paddle2.y = 0;
-        if (paddle2.y >= (GAME_HEIGHT - PADDLE_HEIGHT)) paddle2.y = GAME_HEIGHT - PADDLE_HEIGHT;
+        if (paddle1.x <= 0) paddle1.x = 0;
+        if (paddle1.x >= (GAME_WIDTH - PADDLE_WIDTH)) paddle1.x = GAME_WIDTH - PADDLE_WIDTH;
+        if (paddle2.x <= 0) paddle2.x = 0;
+        if (paddle2.x >= (GAME_WIDTH - PADDLE_WIDTH)) paddle2.x = GAME_WIDTH - PADDLE_WIDTH;
         //give a player 1 point and creates new paddles & ball
         if (ball.x <= 0) {
-            score.player2++;
+            score.player++;
 
             newPaddles();
             newBall();
-            System.out.println("Player 2: " + score.player2);
+            System.out.println("Player 2: " + score.player);
         }
 
         if (ball.x >= GAME_WIDTH - BALL_DIAMETER) {
-            score.player1++;
+            score.player++;
             newPaddles();
             newBall();
-            System.out.println("Player 1: " + score.player1);
+            System.out.println("Player 1: " + score.player);
         }
     }
 
