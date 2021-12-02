@@ -4,13 +4,20 @@ import WlanKasper.com.PingPong.Objects.Rocket;
 import WlanKasper.com.PingPong.Objects.SpaceShip;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class SpaceShip_Rocket extends Thread {
 
-    private final Rocket rocket;
+    private Rocket rocket;
+    private final ArrayList<Rocket> pushedRocketList;
 
-    public SpaceShip_Rocket (SpaceShip spaceShip) {
+    public SpaceShip_Rocket () {
+        pushedRocketList = new ArrayList<>();
+    }
+
+    public void addNewRocket (SpaceShip spaceShip) {
         rocket = new Rocket(spaceShip.x - (Rocket.ROCKET_DIAMETER / 2), spaceShip.y - Rocket.ROCKET_DIAMETER);
+        pushedRocketList.add(rocket);
     }
 
     @Override
@@ -20,17 +27,24 @@ public class SpaceShip_Rocket extends Thread {
             try {
                 Thread.sleep(10);
                 checkBoards();
-                rocket.move();
+                moveRockets();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                rocket.delete();
                 break;
             }
         }
     }
 
+    public void moveRockets () {
+        for (Rocket element : pushedRocketList) {
+            element.move();
+        }
+    }
+
     public void drawRocket (Graphics g) {
-        rocket.draw(g);
+        for (Rocket element : pushedRocketList) {
+            element.draw(g);
+        }
     }
 
     public void pushRocket () {
@@ -38,12 +52,20 @@ public class SpaceShip_Rocket extends Thread {
     }
 
     public boolean isShot (SpaceShip ship) {
-        return rocket.intersects(ship);
+        for (Rocket element : pushedRocketList) {
+            if (element.intersects(ship)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void checkBoards () {
-        if (rocket.y < 0) {
-            this.interrupt();
+        for (Rocket element : pushedRocketList) {
+            if (element.y < 0) {
+                element.delete();
+            }
         }
+
     }
 }

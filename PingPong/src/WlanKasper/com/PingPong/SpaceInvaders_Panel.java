@@ -1,6 +1,5 @@
 package WlanKasper.com.PingPong;
 
-import WlanKasper.com.PingPong.Objects.SpaceShip;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Alien;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Player;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Rocket;
@@ -28,22 +27,18 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     SpaceInvaders_Score spaceInvaders_score;
 
     public SpaceInvaders_Panel () {
-// ---------- JPanel Settings ----------
         this.setFocusable(true);
-        this.addKeyListener(new MoveListener());
+        this.addKeyListener(new KeyListener());
         this.setPreferredSize(SCREEN_SIZE);
 
-// ---------- Score ----------
         spaceInvaders_score = new SpaceInvaders_Score(SpaceInvaders_Frame.GAME_WIDTH, SpaceInvaders_Frame.GAME_HEIGHT);
 
-// ---------- Main Tread ----------
+        spaceShip_rocket = new SpaceShip_Rocket();
+        spaceShip_rocket.start();
         mainThread = new Thread(this);
         mainThread.start();
 
-// ---------- SpaceShip Tread of Player ----------
         createNewSpaceShip_Player();
-
-// ---------- SpaceShip Tread of Alien ----------
         createNewSpaceShip_Alien();
     }
 
@@ -57,9 +52,8 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         spaceShip_alien.start();
     }
 
-    public void createNewSpaceShip_Rocket (SpaceShip spaceShip) {
-        spaceShip_rocket = new SpaceShip_Rocket(spaceShip);
-        spaceShip_rocket.start();
+    public void createNewSpaceShip_Rocket () {
+        spaceShip_rocket.addNewRocket(spaceShip_player.getSpaceShip());
         spaceShip_rocket.pushRocket();
     }
 
@@ -104,7 +98,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         }
     }
 
-    class MoveListener extends KeyAdapter {
+    class KeyListener extends KeyAdapter {
         @Override
         public void keyPressed (KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_A) {
@@ -114,7 +108,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
                 spaceShip_player.pressedRight();
             }
             if (e.getKeyCode() == KeyEvent.VK_W) {
-                createNewSpaceShip_Rocket(spaceShip_player.getSpaceShip());
+                createNewSpaceShip_Rocket();
             }
         }
 
