@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Paddle extends Rectangle {
+    public static final int PADDLE_WIDTH = 100;
+    public static final int PADDLE_HEIGHT = 25;
+
     int id;
     int xVelocity;
     int speed = 10;
@@ -14,44 +17,20 @@ public class Paddle extends Rectangle {
     }
 
     public void keyPressed (KeyEvent e) {
-        switch (id) {
-            case 1:
-                if (e.getKeyCode() == KeyEvent.VK_A) {
-                    setXDirection(-speed);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_D) {
-                    setXDirection(speed);
-                }
-                break;
-            case 2:
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    setXDirection(-speed);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    setXDirection(speed);
-                }
-                break;
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            setXDirection(-speed);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            setXDirection(speed);
         }
     }
 
     public void keyReleased (KeyEvent e) {
-        switch (id) {
-            case 1:
-                if (e.getKeyCode() == KeyEvent.VK_W) {
-                    setXDirection(0);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_S) {
-                    setXDirection(0);
-                }
-                break;
-            case 2:
-                if (e.getKeyCode() == KeyEvent.VK_UP) {
-                    setXDirection(0);
-                }
-                if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-                    setXDirection(0);
-                }
-                break;
+        if (e.getKeyCode() == KeyEvent.VK_A) {
+            setXDirection(-0);
+        }
+        if (e.getKeyCode() == KeyEvent.VK_D) {
+            setXDirection(0);
         }
     }
 
@@ -64,10 +43,8 @@ public class Paddle extends Rectangle {
     }
 
     public void draw (Graphics g) {
-        if (id == 1)
-            g.setColor(Color.blue);
-        else
-            g.setColor(Color.red);
+        if (id == 1) g.setColor(Color.blue);
+        else g.setColor(Color.red);
         g.fillRect(x, y, width, height);
     }
 }

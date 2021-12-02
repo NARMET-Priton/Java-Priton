@@ -4,48 +4,42 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Random;
 
-public class GamePanel extends JPanel implements Runnable{
+public class GamePanel extends JPanel implements Runnable {
 
-    static final int GAME_WIDTH = 1000;
-    static final int GAME_HEIGHT = (int) (GAME_WIDTH * (0.5555));
-    static final Dimension SCREEN_SIZE = new Dimension(GAME_WIDTH, GAME_HEIGHT);
+    static final Dimension SCREEN_SIZE = new Dimension(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
     static final int BALL_DIAMETER = 20;
-    static final int PADDLE_WIDTH = 100;
-    static final int PADDLE_HEIGHT = 25;
 
     Thread gameThread;
+    PaddleThread paddleThread;
     Image image;
     Graphics graphics;
-    Random random;
-    Paddle paddle1;
-    Paddle paddle2;
+    Paddle paddle, paddleT;
     Ball ball;
     GameScore score;
 
     GamePanel () {
-        newPaddles();
+//        paddleThread = new PaddleThread();
+        gameThread = new Thread(this);
+//        paddleThread.start();
+        gameThread.start();
+
+        newPaddle();
         newBall();
-        score = new GameScore(GAME_WIDTH, GAME_HEIGHT);
+        score = new GameScore(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
         this.setFocusable(true);
         this.addKeyListener(new AL());
         this.setPreferredSize(SCREEN_SIZE);
-
-        gameThread = new Thread(this);
-        gameThread.start();
     }
 
     public void newBall () {
-//        random = new Random();
-        ball = new Ball(paddle1.x, paddle1.y + BALL_DIAMETER, BALL_DIAMETER, BALL_DIAMETER);
+        ball = new Ball(paddle.x + (Paddle.PADDLE_WIDTH / 2) - (BALL_DIAMETER / 2), paddle.y - 10, BALL_DIAMETER, BALL_DIAMETER);
     }
 
-    public void newPaddles () {
-        //TOP
-        paddle2 = new Paddle(GAME_WIDTH/2 - (PADDLE_WIDTH / 2), 0, PADDLE_WIDTH, PADDLE_HEIGHT, 2);
-        // BOT
-        paddle1 = new Paddle(GAME_WIDTH/2 - (PADDLE_WIDTH / 2), GAME_HEIGHT - PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT, 1);
+    public void newPaddle () {
+        paddle = new Paddle(GameFrame.GAME_WIDTH / 2 - (Paddle.PADDLE_WIDTH / 2), GameFrame.GAME_HEIGHT - Paddle.PADDLE_HEIGHT, Paddle.PADDLE_WIDTH, Paddle.PADDLE_HEIGHT, 1);
+        paddleT = new Paddle(1, 0, Paddle.PADDLE_WIDTH, Paddle.PADDLE_HEIGHT, 2);
+        paddleT.setXDirection(5);
     }
 
     public void paint (Graphics g) {
@@ -56,50 +50,56 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void draw (Graphics g) {
-        paddle1.draw(g);
-        paddle2.draw(g);
+        paddle.draw(g);
+        paddleT.draw(g);
         ball.draw(g);
         score.draw(g);
-        Toolkit.getDefaultToolkit().sync(); // I forgot to add this line of code in the video, it helps with the animation
+        Toolkit.getDefaultToolkit().sync();
     }
 
     public void move () {
-        paddle1.move();
-        paddle2.move();
+        paddle.move();
+        paddleT.move();
         ball.move();
     }
 
     public void checkCollision () {
 
-        if (ball.y >= GAME_HEIGHT - BALL_DIAMETER) {
+        // Если мяч коснулся панели
+        if (ball.intersects(paddleT)) {
+            score.player++;
+            newPaddle(); // заменить на остановку на секунду панели
             newBall();
-
+            System.out.println("Player: " + score.player);
+        }
+        // Если мяч не коснулся панели
+        if (ball.y <= -BALL_DIAMETER) {
+            score.computer++;
+            newPaddle(); // заменить на остановку на секунду панели
+            newBall();
+            System.out.println("Computer: " + score.computer);
         }
 
-        if (ball.intersects(paddle2)) {
-            newBall();
-            score.player++;
+        // Если панель у края + мяч
+        if (paddle.x <= 0) {
+            paddle.x = 0;
+            ball.x = Paddle.PADDLE_WIDTH/2 - BALL_DIAMETER/2;
+        }
+        if (paddle.x >= (GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH)) {
+            paddle.x = GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH;
+            ball.x = GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH/2- BALL_DIAMETER/2;
         }
 
-        //stops paddles at window edges
-        if (paddle1.x <= 0) paddle1.x = 0;
-        if (paddle1.x >= (GAME_WIDTH - PADDLE_WIDTH)) paddle1.x = GAME_WIDTH - PADDLE_WIDTH;
-        if (paddle2.x <= 0) paddle2.x = 0;
-        if (paddle2.x >= (GAME_WIDTH - PADDLE_WIDTH)) paddle2.x = GAME_WIDTH - PADDLE_WIDTH;
-        //give a player 1 point and creates new paddles & ball
-        if (ball.x <= 0) {
-            score.player++;
 
-            newPaddles();
-            newBall();
-            System.out.println("Player 2: " + score.player);
+        if ((paddleT.x <= 0) || (paddleT.x >= (GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH))) {
+            paddleT.setXDirection(paddleT.xVelocity * -1);
         }
 
-        if (ball.x >= GAME_WIDTH - BALL_DIAMETER) {
-            score.player++;
-            newPaddles();
-            newBall();
-            System.out.println("Player 1: " + score.player);
+        if (ball.x >= GameFrame.GAME_WIDTH - BALL_DIAMETER || ball.x <= BALL_DIAMETER){
+            ball.setXDirection(-ball.xVelocity);
+        }
+        if (ball.y > (paddle.y - 10)){
+            ball.x = ball.afterX;
         }
     }
 
@@ -123,15 +123,14 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public class AL extends KeyAdapter {
-
         public void keyPressed (KeyEvent e) {
-            paddle1.keyPressed(e);
-            paddle2.keyPressed(e);
+            paddle.keyPressed(e);
+            ball.keyPressed(e);
         }
 
         public void keyReleased (KeyEvent e) {
-            paddle1.keyReleased(e);
-            paddle2.keyReleased(e);
+            paddle.keyReleased(e);
+            ball.keyReleased(e);
         }
     }
 }
