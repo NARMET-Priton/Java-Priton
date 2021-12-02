@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class SpaceShip_Alien extends Thread {
 
-    private SpaceShip spaceShip;
+    private final SpaceShip spaceShip;
 
     public SpaceShip_Alien () {
         spaceShip = new SpaceShip(SpaceInvaders_Frame.GAME_WIDTH / 2, 0, 2);
@@ -14,9 +14,9 @@ public class SpaceShip_Alien extends Thread {
 
     @Override
     public void run () {
-        spaceShip.setXDirection((int) (1- Math.random() * 3 ) == 0? 1:-1);
-
         super.run();
+
+        spaceShip.setXDirection((int) (1- Math.random() * 3 ) == 0? 1:-1);
         while (true) {
             try {
                 Thread.sleep(10);
@@ -34,7 +34,7 @@ public class SpaceShip_Alien extends Thread {
     }
 
     public void checkBoards () {
-        if (spaceShip.x < 0 || spaceShip.x > SpaceInvaders_Frame.GAME_WIDTH - spaceShip.SPACESHIP_WIDTH) {
+        if (spaceShip.x < 0 || spaceShip.x > SpaceInvaders_Frame.GAME_WIDTH - SpaceShip.SPACESHIP_WIDTH) {
             spaceShip.setXDirection(spaceShip.xVelocity * -1);
             spaceShip.moveDown();
         }

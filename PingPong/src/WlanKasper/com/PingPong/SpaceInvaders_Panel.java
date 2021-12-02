@@ -1,24 +1,27 @@
 package WlanKasper.com.PingPong;
 
+import WlanKasper.com.PingPong.Objects.SpaceShip;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Alien;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Player;
-
+import WlanKasper.com.PingPong.Threads.SpaceShip_Rocket;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class SpaceInvaders_Panel extends JPanel implements Runnable{
+public class SpaceInvaders_Panel extends JPanel implements Runnable {
 
-// ---------- STATIC ----------
+    // ---------- STATIC ----------
     private static final Dimension SCREEN_SIZE = new Dimension(SpaceInvaders_Frame.GAME_WIDTH, SpaceInvaders_Frame.GAME_HEIGHT);
 
-// ---------- Threads ----------
+    // ---------- Threads ----------
     Thread mainThread;
     SpaceShip_Player spaceShip_player;
     SpaceShip_Alien spaceShip_alien;
+    SpaceShip_Rocket spaceShip_rocket;
 
-// ---------- Graphics Objects ----------
+
+    // ---------- Graphics Objects ----------
     Image image;
     Graphics graphics;
     SpaceInvaders_Score spaceInvaders_score;
@@ -28,6 +31,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable{
         this.setFocusable(true);
         this.addKeyListener(new MoveListener());
         this.setPreferredSize(SCREEN_SIZE);
+
 // ---------- Score ----------
         spaceInvaders_score = new SpaceInvaders_Score(SpaceInvaders_Frame.GAME_WIDTH, SpaceInvaders_Frame.GAME_HEIGHT);
 
@@ -36,24 +40,34 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable{
         mainThread.start();
 
 // ---------- SpaceShip Tread of Player ----------
-        spaceShip_player = new SpaceShip_Player();
-        spaceShip_player.start();
+        createNewSpaceShip_Player();
 
 // ---------- SpaceShip Tread of Alien ----------
         createNewSpaceShip_Alien();
     }
 
-    public void createNewSpaceShip_Alien(){
+    public void createNewSpaceShip_Player () {
+        spaceShip_player = new SpaceShip_Player();
+        spaceShip_player.start();
+    }
+
+    public void createNewSpaceShip_Alien () {
         spaceShip_alien = new SpaceShip_Alien();
         spaceShip_alien.start();
     }
 
+    public void createNewSpaceShip_Rocket (SpaceShip spaceShip){
+        spaceShip_rocket = new SpaceShip_Rocket(spaceShip);
+        spaceShip_rocket.start();
+        spaceShip_rocket.pushRocket();
+    }
+
     @Override
     public void run () {
-        while (true){
+        while (true) {
             try {
                 Thread.sleep(10);
-                checkHit();
+                checkShots();
                 repaint();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -68,20 +82,23 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable{
         g.drawImage(image, 0, 0, this);
     }
 
-    public void draw(Graphics g) {
+    public void draw (Graphics g) {
         spaceShip_player.drawSpaceShip(g);
-        spaceShip_alien.drawSpaceShip(g);
+        if (spaceShip_alien != null && spaceShip_alien.isAlive()){
+            spaceShip_alien.drawSpaceShip(g);
+        }
+        if (spaceShip_rocket != null && spaceShip_rocket.isAlive()){
+            spaceShip_rocket.drawRocket(g);
+        }
         spaceInvaders_score.draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
-    public void checkHit(){
-        if (spaceShip_player.getRocket() != null){
-            if (spaceShip_player.getRocket().isHit(spaceShip_alien.getSpaceShip())){
-                spaceShip_alien.interrupt();
-                spaceInvaders_score.player++;
-                createNewSpaceShip_Alien();
-            }
+    public void checkShots(){
+        if (spaceShip_rocket != null && spaceShip_rocket.isShot(spaceShip_alien.getSpaceShip())){
+            spaceShip_alien.interrupt();
+            spaceInvaders_score.player++;
+            createNewSpaceShip_Alien();
         }
     }
 
@@ -96,7 +113,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable{
                 spaceShip_player.pressedRight();
             }
             if (e.getKeyCode() == KeyEvent.VK_W) {
-                spaceShip_player.pushRocket();
+                createNewSpaceShip_Rocket(spaceShip_player.getSpaceShip());
             }
         }
 

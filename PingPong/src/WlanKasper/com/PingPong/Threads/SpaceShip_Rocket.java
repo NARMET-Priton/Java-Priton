@@ -5,12 +5,12 @@ import WlanKasper.com.PingPong.Objects.SpaceShip;
 
 import java.awt.*;
 
-public class SpaceShip_Player_Rocket extends Thread{
+public class SpaceShip_Rocket extends Thread {
 
-    private Rocket rocket;
+    private final Rocket rocket;
 
-    public SpaceShip_Player_Rocket (int xPosition, int yPosition) {
-        rocket = new Rocket(xPosition - (Rocket.ROCKET_DIAMETER/2), yPosition - Rocket.ROCKET_DIAMETER);
+    public SpaceShip_Rocket (SpaceShip spaceShip) {
+        rocket = new Rocket(spaceShip.x - (Rocket.ROCKET_DIAMETER / 2), spaceShip.y - Rocket.ROCKET_DIAMETER);
     }
 
     @Override
@@ -23,7 +23,6 @@ public class SpaceShip_Player_Rocket extends Thread{
                 rocket.move();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                rocket.remove();
                 break;
             }
         }
@@ -37,16 +36,12 @@ public class SpaceShip_Player_Rocket extends Thread{
         rocket.setYDirection(-10);
     }
 
-    public boolean isHit (SpaceShip ship) {
-        if (rocket.intersects(ship)){
-            this.interrupt();
-            return true;
-        }
-        return false;
+    public boolean isShot (SpaceShip ship) {
+        return rocket.intersects(ship);
     }
 
     public void checkBoards () {
-        if (rocket.y < 0){
+        if (rocket.y < 0) {
             this.interrupt();
         }
     }
