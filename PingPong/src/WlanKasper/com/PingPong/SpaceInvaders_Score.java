@@ -18,8 +18,8 @@ public class SpaceInvaders_Score extends Rectangle {
         g.setColor(Color.white);
         g.setFont(new Font("Consolas", Font.PLAIN, 60));
         g.drawLine(0, (int) (GAME_HEIGHT / 1.5), GAME_WIDTH, (int) (GAME_HEIGHT / 1.5));
-        g.drawString(String.valueOf(computer / 10) + String.valueOf(computer % 10), 0, ((int) (GAME_HEIGHT / 1.5)) - 5);
-        g.drawString(String.valueOf(player / 10) + String.valueOf(player % 10), 0, ((int) (GAME_HEIGHT / 1.5)) + 50);
+        g.drawString(computer / 10 + String.valueOf(computer % 10), 0, ((int) (GAME_HEIGHT / 1.5)) - 5);
+        g.drawString(player / 10 + String.valueOf(player % 10), 0, ((int) (GAME_HEIGHT / 1.5)) + 50);
 
     }
 }

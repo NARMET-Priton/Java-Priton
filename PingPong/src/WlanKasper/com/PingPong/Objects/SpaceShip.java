@@ -1,7 +1,6 @@
 package WlanKasper.com.PingPong.Objects;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class SpaceShip extends Rectangle {
     public static final int SPACESHIP_WIDTH = 50;
@@ -26,6 +25,7 @@ public class SpaceShip extends Rectangle {
         x += xVelocity;
         y += yVelocity;
     }
+
     public void moveDown () {
         y += SPACESHIP_HEIGHT;
     }

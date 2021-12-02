@@ -4,6 +4,7 @@ import WlanKasper.com.PingPong.Objects.SpaceShip;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Alien;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Player;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Rocket;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -56,7 +57,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         spaceShip_alien.start();
     }
 
-    public void createNewSpaceShip_Rocket (SpaceShip spaceShip){
+    public void createNewSpaceShip_Rocket (SpaceShip spaceShip) {
         spaceShip_rocket = new SpaceShip_Rocket(spaceShip);
         spaceShip_rocket.start();
         spaceShip_rocket.pushRocket();
@@ -71,6 +72,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
                 repaint();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                break;
             }
         }
     }
@@ -84,18 +86,18 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
 
     public void draw (Graphics g) {
         spaceShip_player.drawSpaceShip(g);
-        if (spaceShip_alien != null && spaceShip_alien.isAlive()){
+        if (spaceShip_alien != null && spaceShip_alien.isAlive()) {
             spaceShip_alien.drawSpaceShip(g);
         }
-        if (spaceShip_rocket != null && spaceShip_rocket.isAlive()){
+        if (spaceShip_rocket != null && spaceShip_rocket.isAlive()) {
             spaceShip_rocket.drawRocket(g);
         }
         spaceInvaders_score.draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
-    public void checkShots(){
-        if (spaceShip_rocket != null && spaceShip_rocket.isShot(spaceShip_alien.getSpaceShip())){
+    public void checkShots () {
+        if (spaceShip_rocket != null && spaceShip_rocket.isShot(spaceShip_alien.getSpaceShip())) {
             spaceShip_alien.interrupt();
             spaceInvaders_score.player++;
             createNewSpaceShip_Alien();
@@ -103,7 +105,6 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     }
 
     class MoveListener extends KeyAdapter {
-
         @Override
         public void keyPressed (KeyEvent e) {
             if (e.getKeyCode() == KeyEvent.VK_A) {

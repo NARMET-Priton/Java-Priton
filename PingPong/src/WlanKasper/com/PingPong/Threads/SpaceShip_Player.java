@@ -2,6 +2,7 @@ package WlanKasper.com.PingPong.Threads;
 
 import WlanKasper.com.PingPong.Objects.SpaceShip;
 import WlanKasper.com.PingPong.SpaceInvaders_Frame;
+
 import java.awt.*;
 
 public class SpaceShip_Player extends Thread {
@@ -31,7 +32,9 @@ public class SpaceShip_Player extends Thread {
         spaceShip.draw(g);
     }
 
-    public void pressedLeft () { spaceShip.setXDirection(-10); }
+    public void pressedLeft () {
+        spaceShip.setXDirection(-10);
+    }
 
     public void pressedRight () {
         spaceShip.setXDirection(10);

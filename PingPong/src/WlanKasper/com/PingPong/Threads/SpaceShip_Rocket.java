@@ -23,6 +23,7 @@ public class SpaceShip_Rocket extends Thread {
                 rocket.move();
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                rocket.delete();
                 break;
             }
         }

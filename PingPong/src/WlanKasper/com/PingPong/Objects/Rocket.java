@@ -3,7 +3,7 @@ package WlanKasper.com.PingPong.Objects;
 import java.awt.*;
 
 public class Rocket extends Rectangle {
-    public static final int ROCKET_DIAMETER = 20;
+    public static final int ROCKET_DIAMETER = 10;
 
     int yVelocity, xVelocity;
 
@@ -11,8 +11,8 @@ public class Rocket extends Rectangle {
         super(x, y, ROCKET_DIAMETER, ROCKET_DIAMETER);
     }
 
-    public void setXDirection (int xDirection) {
-        xVelocity = xDirection;
+    public void delete () {
+        super.setSize(0, 0);
     }
 
     public void setYDirection (int yDirection) {
@@ -26,6 +26,6 @@ public class Rocket extends Rectangle {
 
     public void draw (Graphics g) {
         g.setColor(Color.green);
-        g.fillOval(x, y, height, width);
+        g.fillOval(x, y, width, height);
     }
 }

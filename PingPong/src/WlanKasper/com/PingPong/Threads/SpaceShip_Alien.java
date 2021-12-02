@@ -2,6 +2,7 @@ package WlanKasper.com.PingPong.Threads;
 
 import WlanKasper.com.PingPong.Objects.SpaceShip;
 import WlanKasper.com.PingPong.SpaceInvaders_Frame;
+
 import java.awt.*;
 
 public class SpaceShip_Alien extends Thread {
@@ -16,7 +17,7 @@ public class SpaceShip_Alien extends Thread {
     public void run () {
         super.run();
 
-        spaceShip.setXDirection((int) (1- Math.random() * 3 ) == 0? 1:-1);
+        spaceShip.setXDirection((int) (1 - Math.random() * 3) == 0 ? 1 : -1);
         while (true) {
             try {
                 Thread.sleep(10);
