@@ -2,6 +2,6 @@ package WlanKasper.com.PingPong;
 
 public class Main {
     public static void main (String[] args) {
-        GameFrame frame = new GameFrame();
+        SpaceInvaders_Frame frame = new SpaceInvaders_Frame();
     }
 }

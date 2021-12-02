@@ -3,17 +3,17 @@ package WlanKasper.com.PingPong;
 import javax.swing.*;
 import java.awt.*;
 
-public class GameFrame extends JFrame {
+public class SpaceInvaders_Frame extends JFrame {
 
     public static final int GAME_WIDTH = 1000;
-    public static final int GAME_HEIGHT = (int) (GAME_WIDTH * (0.5555));
+    public static final int GAME_HEIGHT = 700;
 
-    GamePanel panel;
+    SpaceInvaders_Panel spaceInvaders_Panel;
 
-    GameFrame () {
-        panel = new GamePanel();
-        this.add(panel);
-        this.setTitle("Pong Game");
+    SpaceInvaders_Frame () {
+        spaceInvaders_Panel = new SpaceInvaders_Panel();
+        this.add(spaceInvaders_Panel);
+        this.setTitle("Space Invaders");
         this.setResizable(false);
         this.setBackground(Color.black);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
