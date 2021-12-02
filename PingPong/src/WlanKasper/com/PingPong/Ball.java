@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Ball extends Rectangle {
+    public static final int BALL_DIAMETER = 20;
+
     int yVelocity, xVelocity;
     int speed = 5;
     int afterX;

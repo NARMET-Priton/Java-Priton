@@ -8,32 +8,25 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel implements Runnable {
 
     static final Dimension SCREEN_SIZE = new Dimension(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
-    static final int BALL_DIAMETER = 20;
 
     Thread gameThread;
-    PaddleThread paddleThread;
+    BallThread ballThread;
+
     Image image;
     Graphics graphics;
     Paddle paddle, paddleT;
-    Ball ball;
     GameScore score;
 
     GamePanel () {
-//        paddleThread = new PaddleThread();
         gameThread = new Thread(this);
-//        paddleThread.start();
         gameThread.start();
 
         newPaddle();
-        newBall();
+        ballThread = new BallThread(paddle.x, paddle.y);
         score = new GameScore(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
         this.setFocusable(true);
         this.addKeyListener(new AL());
         this.setPreferredSize(SCREEN_SIZE);
-    }
-
-    public void newBall () {
-        ball = new Ball(paddle.x + (Paddle.PADDLE_WIDTH / 2) - (BALL_DIAMETER / 2), paddle.y - 10, BALL_DIAMETER, BALL_DIAMETER);
     }
 
     public void newPaddle () {
@@ -52,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void draw (Graphics g) {
         paddle.draw(g);
         paddleT.draw(g);
-        ball.draw(g);
+        ballThread.getBall().draw(g);
         score.draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
@@ -60,34 +53,34 @@ public class GamePanel extends JPanel implements Runnable {
     public void move () {
         paddle.move();
         paddleT.move();
-        ball.move();
+        ballThread.getBall().move();
     }
 
     public void checkCollision () {
 
         // Если мяч коснулся панели
-        if (ball.intersects(paddleT)) {
+        if (ballThread.getBall().intersects(paddleT)) {
             score.player++;
             newPaddle(); // заменить на остановку на секунду панели
-            newBall();
+            ballThread = new BallThread(paddle.x, paddle.y);
             System.out.println("Player: " + score.player);
         }
         // Если мяч не коснулся панели
-        if (ball.y <= -BALL_DIAMETER) {
+        if (ballThread.getBall().y <= -Ball.BALL_DIAMETER) {
             score.computer++;
             newPaddle(); // заменить на остановку на секунду панели
-            newBall();
+            ballThread = new BallThread(paddle.x, paddle.y);
             System.out.println("Computer: " + score.computer);
         }
 
         // Если панель у края + мяч
         if (paddle.x <= 0) {
             paddle.x = 0;
-            ball.x = Paddle.PADDLE_WIDTH/2 - BALL_DIAMETER/2;
+            ballThread.getBall().x = Paddle.PADDLE_WIDTH/2 - Ball.BALL_DIAMETER/2;
         }
         if (paddle.x >= (GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH)) {
             paddle.x = GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH;
-            ball.x = GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH/2- BALL_DIAMETER/2;
+            ballThread.getBall().x = GameFrame.GAME_WIDTH - Paddle.PADDLE_WIDTH/2- Ball.BALL_DIAMETER/2;
         }
 
 
@@ -95,11 +88,11 @@ public class GamePanel extends JPanel implements Runnable {
             paddleT.setXDirection(paddleT.xVelocity * -1);
         }
 
-        if (ball.x >= GameFrame.GAME_WIDTH - BALL_DIAMETER || ball.x <= BALL_DIAMETER){
-            ball.setXDirection(-ball.xVelocity);
+        if (ballThread.getBall().x >= GameFrame.GAME_WIDTH - Ball.BALL_DIAMETER || ballThread.getBall().x <= Ball.BALL_DIAMETER){
+            ballThread.getBall().setXDirection(-ballThread.getBall().xVelocity);
         }
-        if (ball.y > (paddle.y - 10)){
-            ball.x = ball.afterX;
+        if (ballThread.getBall().y > (paddle.y - 10)){
+            ballThread.getBall().x = ballThread.getBall().afterX;
         }
     }
 
@@ -125,12 +118,12 @@ public class GamePanel extends JPanel implements Runnable {
     public class AL extends KeyAdapter {
         public void keyPressed (KeyEvent e) {
             paddle.keyPressed(e);
-            ball.keyPressed(e);
+            ballThread.getBall().keyPressed(e);
         }
 
         public void keyReleased (KeyEvent e) {
             paddle.keyReleased(e);
-            ball.keyReleased(e);
+            ballThread.getBall().keyReleased(e);
         }
     }
 }
