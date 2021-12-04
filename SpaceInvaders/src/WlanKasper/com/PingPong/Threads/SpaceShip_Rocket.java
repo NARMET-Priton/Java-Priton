@@ -16,7 +16,7 @@ public class SpaceShip_Rocket extends Thread {
     }
 
     public void addNewRocket (SpaceShip spaceShip) {
-        rocket = new Rocket(spaceShip.x - (Rocket.ROCKET_DIAMETER / 2), spaceShip.y - Rocket.ROCKET_DIAMETER);
+        rocket = new Rocket(spaceShip.x + (SpaceShip.SPACESHIP_WIDTH / 2), spaceShip.y - Rocket.ROCKET_DIAMETER);
         pushedRocketList.add(rocket);
     }
 
@@ -51,16 +51,19 @@ public class SpaceShip_Rocket extends Thread {
         rocket.setYDirection(-10);
     }
 
-    public boolean isShot (SpaceShip ship) {
-        for (Rocket element : pushedRocketList) {
-            if (element.intersects(ship)) {
-                return true;
+    public SpaceShip_Alien isShot (ArrayList<SpaceShip_Alien> spaceShipList) {
+        for (SpaceShip_Alien ship : spaceShipList) {
+            for (Rocket element : pushedRocketList) {
+                if (element.intersects(ship.getSpaceShip())) {
+                    return ship;
+                }
             }
         }
-        return false;
+        return null;
     }
 
     public void checkBoards () {
+        // 1 раз выпала ошибка из-за раз синхронизации потоков
         for (Rocket element : pushedRocketList) {
             if (element.y < 0) {
                 element.delete();

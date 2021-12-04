@@ -15,6 +15,11 @@ public class SpaceShip extends Rectangle {
         this.id = id;
     }
 
+    // ---------- Delete SpaceShip ----------
+    public void delete () {
+        super.setSize(0, 0);
+    }
+
     // ---------- Set Direction of SpaceShip ----------
     public void setXDirection (int xDirection) {
         xVelocity = xDirection;
@@ -27,12 +32,12 @@ public class SpaceShip extends Rectangle {
     }
 
     public void moveDown () {
-        y += SPACESHIP_HEIGHT;
+        y += SPACESHIP_HEIGHT + 50;
     }
 
     // ---------- Draw Graphic of SpaceShip ----------
     public void draw (Graphics g) {
-        if (id == 1) {
+        if (id == 0) {
             g.setColor(Color.white);
         } else {
             g.setColor(Color.blue);

@@ -1,6 +1,7 @@
 package WlanKasper.com.PingPong;
 
 import WlanKasper.com.PingPong.Threads.SpaceShip_Alien;
+import WlanKasper.com.PingPong.Threads.SpaceShip_Battalion;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Player;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Rocket;
 
@@ -17,9 +18,11 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     // ---------- Threads ----------
     Thread mainThread;
     SpaceShip_Player spaceShip_player;
-    SpaceShip_Alien spaceShip_alien;
+
     SpaceShip_Rocket spaceShip_rocket;
 
+    // ---------- Lists ----------
+    SpaceShip_Battalion spaceShip_battalion;
 
     // ---------- Graphics Objects ----------
     Image image;
@@ -32,6 +35,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         this.setPreferredSize(SCREEN_SIZE);
 
         spaceInvaders_score = new SpaceInvaders_Score(SpaceInvaders_Frame.GAME_WIDTH, SpaceInvaders_Frame.GAME_HEIGHT);
+        spaceShip_battalion = new SpaceShip_Battalion();
 
         spaceShip_rocket = new SpaceShip_Rocket();
         spaceShip_rocket.start();
@@ -39,7 +43,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         mainThread.start();
 
         createNewSpaceShip_Player();
-        createNewSpaceShip_Alien();
+        addNewSpaceShip_Alien();
     }
 
     public void createNewSpaceShip_Player () {
@@ -47,9 +51,10 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         spaceShip_player.start();
     }
 
-    public void createNewSpaceShip_Alien () {
-        spaceShip_alien = new SpaceShip_Alien();
+    public void addNewSpaceShip_Alien () {
+        SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien();
         spaceShip_alien.start();
+        spaceShip_battalion.addNewSpaceShip_Alien(spaceShip_alien);
     }
 
     public void createNewSpaceShip_Rocket () {
@@ -80,8 +85,8 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
 
     public void draw (Graphics g) {
         spaceShip_player.drawSpaceShip(g);
-        if (spaceShip_alien != null && spaceShip_alien.isAlive()) {
-            spaceShip_alien.drawSpaceShip(g);
+        if (spaceShip_battalion.getSpaceShips() != null) {
+            spaceShip_battalion.draw(g);
         }
         if (spaceShip_rocket != null && spaceShip_rocket.isAlive()) {
             spaceShip_rocket.drawRocket(g);
@@ -91,10 +96,11 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     }
 
     public void checkShots () {
-        if (spaceShip_rocket != null && spaceShip_rocket.isShot(spaceShip_alien.getSpaceShip())) {
-            spaceShip_alien.interrupt();
+        SpaceShip_Alien temp = spaceShip_rocket.isShot(spaceShip_battalion.getSpaceShips());
+        if (spaceShip_rocket != null && temp != null) {
+            addNewSpaceShip_Alien();
+            spaceShip_battalion.killSpaceShip(temp);
             spaceInvaders_score.player++;
-            createNewSpaceShip_Alien();
         }
     }
 

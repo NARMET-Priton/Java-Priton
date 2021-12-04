@@ -10,7 +10,7 @@ public class SpaceShip_Player extends Thread {
     private final SpaceShip spaceShip;
 
     public SpaceShip_Player () {
-        spaceShip = new SpaceShip(SpaceInvaders_Frame.GAME_WIDTH / 2, SpaceInvaders_Frame.GAME_HEIGHT - SpaceShip.SPACESHIP_HEIGHT, 1);
+        spaceShip = new SpaceShip(SpaceInvaders_Frame.GAME_WIDTH / 2, SpaceInvaders_Frame.GAME_HEIGHT - SpaceShip.SPACESHIP_HEIGHT, 0);
     }
 
     @Override
