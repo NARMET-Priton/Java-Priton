@@ -18,17 +18,22 @@ public class SpaceShip_Battalion {
     }
 
     public void createBattalion () {
-        int x, y = 0;
-        for (int i = 0; i < 10; i++) {
-            if (i % 5 == 0){
+        int x = 0, y = 0;
+        int id = 0;
+        for (int i = 0; i < 27; i++) {
+
+            if (i % 9 == 0) {
+                x = 10;
                 y += SpaceShip.SPACESHIP_HEIGHT + 10;
+                id++;
+            } else {
+                x += SpaceShip.SPACESHIP_WIDTH + 50;
             }
-            x = (i % 5) * 100 + SpaceShip.SPACESHIP_WIDTH;
-            SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien(x, y);
+
+            SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien(x, y, id,this);
             spaceShip_alien.start();
             addNewSpaceShip_Alien(spaceShip_alien);
         }
-
     }
 
     public void draw (Graphics g) {
@@ -52,4 +57,12 @@ public class SpaceShip_Battalion {
             }
         }
     }
+
+    public void moveAllDown () {
+        for (SpaceShip_Alien ship : battalion) {
+            ship.getSpaceShip().setXDirection(ship.getSpaceShip().xVelocity * -1);
+            ship.getSpaceShip().moveDown();
+        }
+    }
+
 }

@@ -95,6 +95,8 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         Toolkit.getDefaultToolkit().sync();
     }
 
+    // ракета после попадания летит дальше
+    // если прервать поток то ракету не видно, но она остается в мсте попадания + не создается новая
     public void checkShots () {
         SpaceShip_Alien temp = spaceShip_rocket.isShot(spaceShip_battalion.getSpaceShips());
         if (spaceShip_rocket != null && temp != null) {

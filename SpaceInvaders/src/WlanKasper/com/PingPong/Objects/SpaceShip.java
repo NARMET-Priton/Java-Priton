@@ -32,15 +32,31 @@ public class SpaceShip extends Rectangle {
     }
 
     public void moveDown () {
-        y += SPACESHIP_HEIGHT + 10;
+        y += SPACESHIP_HEIGHT;
     }
 
     // ---------- Draw Graphic of SpaceShip ----------
     public void draw (Graphics g) {
-        if (id == 0) {
-            g.setColor(Color.white);
-        } else {
-            g.setColor(Color.blue);
+        switch (id){
+            case 0:{
+                g.setColor(Color.white);
+                break;
+            }
+            case 1:{
+                g.setColor(Color.red);
+                break;
+            }
+            case 2:{
+                g.setColor(Color.orange);
+                break;
+            }
+            case 3:{
+                g.setColor(Color.cyan);
+                break;
+            }
+            default:{
+                g.setColor(Color.GREEN);
+            }
         }
         g.fillRect(x, y, width, height);
     }
