@@ -4,6 +4,7 @@ import WlanKasper.com.PingPong.Objects.SpaceShip;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class SpaceShip_Battalion {
     private ArrayList<SpaceShip_Alien> battalion;
@@ -51,11 +52,8 @@ public class SpaceShip_Battalion {
     }
 
     public void killSpaceShip (SpaceShip_Alien ship) {
-        for (SpaceShip_Alien elem : battalion) {
-            if (elem == ship) {
-                elem.getSpaceShip().delete();
-            }
-        }
+        ship.interrupt();
+        battalion.remove(ship);
     }
 
     public void moveAllDown () {

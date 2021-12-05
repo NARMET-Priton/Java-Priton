@@ -3,7 +3,7 @@ package WlanKasper.com.PingPong;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Alien;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Battalion;
 import WlanKasper.com.PingPong.Threads.SpaceShip_Player;
-import WlanKasper.com.PingPong.Threads.SpaceShip_Rocket;
+import WlanKasper.com.PingPong.Threads.Rocket_List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,10 +19,11 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     Thread mainThread;
     SpaceShip_Player spaceShip_player;
 
-    SpaceShip_Rocket spaceShip_rocket;
+    Rocket_List spaceShip_rocket;
 
     // ---------- Lists ----------
     SpaceShip_Battalion spaceShip_battalion;
+    Rocket_List rocketList;
 
     // ---------- Graphics Objects ----------
     Image image;
@@ -37,8 +38,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         spaceInvaders_score = new SpaceInvaders_Score(SpaceInvaders_Frame.GAME_WIDTH, SpaceInvaders_Frame.GAME_HEIGHT);
         spaceShip_battalion = new SpaceShip_Battalion();
 
-        spaceShip_rocket = new SpaceShip_Rocket();
-        spaceShip_rocket.start();
+        rocketList = new Rocket_List();
         mainThread = new Thread(this);
         mainThread.start();
 
@@ -58,8 +58,7 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     }
 
     public void createNewSpaceShip_Rocket () {
-        spaceShip_rocket.addNewRocket(spaceShip_player.getSpaceShip());
-        spaceShip_rocket.pushRocket();
+        rocketList.addNewRocket(spaceShip_player.getSpaceShip());
     }
 
     @Override
@@ -88,20 +87,16 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         if (spaceShip_battalion.getSpaceShips() != null) {
             spaceShip_battalion.draw(g);
         }
-        if (spaceShip_rocket != null && spaceShip_rocket.isAlive()) {
-            spaceShip_rocket.drawRocket(g);
+        if (rocketList != null) {
+            rocketList.draw(g);
         }
         spaceInvaders_score.draw(g);
         Toolkit.getDefaultToolkit().sync();
     }
 
-    // ракета после попадания летит дальше
-    // если прервать поток то ракету не видно, но она остается в мсте попадания + не создается новая
     public void checkShots () {
-        SpaceShip_Alien temp = spaceShip_rocket.isShot(spaceShip_battalion.getSpaceShips());
-        if (spaceShip_rocket != null && temp != null) {
-            addNewSpaceShip_Alien();
-            spaceShip_battalion.killSpaceShip(temp);
+        SpaceShip_Alien temp = rocketList.isShot(spaceShip_battalion.getSpaceShips());
+        if (rocketList != null && temp != null) {
             spaceInvaders_score.player++;
         }
     }
