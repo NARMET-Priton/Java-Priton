@@ -32,7 +32,7 @@ public class SpaceShip extends Rectangle {
     }
 
     public void moveDown () {
-        y += SPACESHIP_HEIGHT + 50;
+        y += SPACESHIP_HEIGHT + 10;
     }
 
     // ---------- Draw Graphic of SpaceShip ----------

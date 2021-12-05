@@ -52,9 +52,9 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     }
 
     public void addNewSpaceShip_Alien () {
-        SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien();
-        spaceShip_alien.start();
-        spaceShip_battalion.addNewSpaceShip_Alien(spaceShip_alien);
+//        SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien();
+//        spaceShip_alien.start();
+//        spaceShip_battalion.addNewSpaceShip_Alien(spaceShip_alien);
     }
 
     public void createNewSpaceShip_Rocket () {

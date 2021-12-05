@@ -8,16 +8,17 @@ import java.awt.*;
 public class SpaceShip_Alien extends Thread {
 
     private final SpaceShip spaceShip;
+    private final int direction = (int) (1 - Math.random() * 3) == 0 ? 1 : -1;
 
-    public SpaceShip_Alien () {
-        spaceShip = new SpaceShip(SpaceInvaders_Frame.GAME_WIDTH / 2, 0, 2);
+    public SpaceShip_Alien (int x, int y) {
+        spaceShip = new SpaceShip(x, y, 2);
+        spaceShip.setXDirection(direction);
     }
 
     @Override
     public void run () {
         super.run();
 
-        spaceShip.setXDirection((int) (1 - Math.random() * 3) == 0 ? 1 : -1);
         while (true) {
             try {
                 Thread.sleep(10);
