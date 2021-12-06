@@ -5,9 +5,11 @@ import WlanKasper.com.PingPong.Objects.SpaceShip;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CyclicBarrier;
 
 public class SpaceShip_Battalion {
     private ArrayList<SpaceShip_Alien> battalion;
+    private final CyclicBarrier gate = new CyclicBarrier(27);
 
     public SpaceShip_Battalion () {
         battalion = new ArrayList<>();
@@ -31,7 +33,7 @@ public class SpaceShip_Battalion {
                 x += SpaceShip.SPACESHIP_WIDTH + 50;
             }
 
-            SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien(x, y, id,this);
+            SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien(x, y, id,this, gate);
             spaceShip_alien.start();
             addNewSpaceShip_Alien(spaceShip_alien);
         }

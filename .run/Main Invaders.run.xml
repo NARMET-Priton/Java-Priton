@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Main Invaders" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="WlanKasper.com.PingPong.Main" />
+    <module name="Space_Invaders" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="WlanKasper.com.PingPong.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

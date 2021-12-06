@@ -4,13 +4,18 @@ import WlanKasper.com.PingPong.Objects.SpaceShip;
 import WlanKasper.com.PingPong.SpaceInvaders_Frame;
 
 import java.awt.*;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 public class SpaceShip_Alien extends Thread {
 
     private final SpaceShip spaceShip;
     private final SpaceShip_Battalion battalion;
 
-    public SpaceShip_Alien (int x, int y, int id, SpaceShip_Battalion battalion) {
+    CyclicBarrier gate;
+
+    public SpaceShip_Alien (int x, int y, int id, SpaceShip_Battalion battalion, CyclicBarrier gate) {
+        this.gate = gate;
         this.battalion = battalion;
         spaceShip = new SpaceShip(x, y, id);
         spaceShip.setXDirection(1);
@@ -19,7 +24,11 @@ public class SpaceShip_Alien extends Thread {
     @Override
     public void run () {
         super.run();
-
+        try {
+            gate.await();
+        } catch (InterruptedException | BrokenBarrierException e) {
+            e.printStackTrace();
+        }
         while (true) {
             try {
                 Thread.sleep(10);

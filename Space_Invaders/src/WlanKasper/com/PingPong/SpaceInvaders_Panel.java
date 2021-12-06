@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.concurrent.CyclicBarrier;
 
 public class SpaceInvaders_Panel extends JPanel implements Runnable {
 
