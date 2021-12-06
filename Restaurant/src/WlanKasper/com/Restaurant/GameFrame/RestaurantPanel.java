@@ -8,8 +8,9 @@ import WlanKasper.com.Restaurant.Objects.Vegan;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Random;
 
-public class RestaurantPanel extends JPanel implements Runnable{
+public class RestaurantPanel extends JPanel implements Runnable {
 
     public static final int GAME_WIDTH = 1000;
     public static final int GAME_HEIGHT = 700;
@@ -28,27 +29,60 @@ public class RestaurantPanel extends JPanel implements Runnable{
     // Objects List
     ClientList clientList;
 
-    public RestaurantPanel (){
+    public RestaurantPanel () {
         this.setFocusable(true);
         this.setPreferredSize(SCREEN_SIZE);
 
+        clientList = new ClientList();
+//        autoCreateClients(20);
+
         gameThread = new Thread(this);
         gameThread.start();
-
-        clientList = new ClientList();
-        autoCreateClients(20);
     }
 
     @Override
     public void run () {
-        while (true) {
+        int x = 0, y = 0, i = 0, id = 0;
+        while (i < 20) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(100);
                 repaint();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                break;
             }
+
+            if (new Random().nextBoolean()) {
+                if (x > GAME_WIDTH) {
+                    x = 50;
+                    y += 50 + 25;
+
+                } else {
+                    x = 50*i;
+                }
+                switch ((int) (Math.random() * (1 + 2)) + 1) {
+                    case 1 -> {
+                        client = new Omnivorous(x, y, "Artur", id);
+                        clientList.addNewClient(client);
+                    }
+                    case 2 -> {
+                        client = new Vegan(x, y, "Artur", id);
+                        clientList.addNewClient(client);
+                    }
+                    case 3 -> {
+                        client = new Muslim(x, y, "Artur", id);
+                        clientList.addNewClient(client);
+                    }
+                    default -> System.out.println("ERROR!!!!!!!!!!!!!");
+                }
+                i++;
+            } else {
+//                clientList.remove((int) ( Math.random() * i ));
+                clientList.remove(i);
+                if (i > 0) {
+                    i--;
+                }
+            }
+            id++;
         }
     }
 
@@ -64,7 +98,7 @@ public class RestaurantPanel extends JPanel implements Runnable{
         Toolkit.getDefaultToolkit().sync();
     }
 
-    public void autoCreateClients(int size){
+    /*public void autoCreateClients (int size) {
         int x = 0, y = 0, id = 0;
         for (int i = 0; i < size; i++) {
             if (i % 12 == 0) {
@@ -91,6 +125,10 @@ public class RestaurantPanel extends JPanel implements Runnable{
             }
             id++;
         }
+    }*/
+
+    public void autoCreateClients (int size) {
+
     }
 
 }

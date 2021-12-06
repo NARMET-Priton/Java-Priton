@@ -3,6 +3,7 @@ package WlanKasper.com.Restaurant.Objects;
 import java.awt.*;
 
 public class Client extends Rectangle {
+    // Добавлять по x и y клиента
     public static final int CLIENT_WIDTH = 50;
     public static final int CLIENT_HEIGHT = 50;
 

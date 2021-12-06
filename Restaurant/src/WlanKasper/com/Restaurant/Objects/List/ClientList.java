@@ -16,6 +16,12 @@ public class ClientList {
         clientList.add(client);
     }
 
+    public void remove (int position){
+        if (position > 0 && position < clientList.size()){
+            clientList.remove(position);
+        }
+    }
+
     public void draw(Graphics g){
         if (!clientList.isEmpty()){
             for (Client client: clientList) {
