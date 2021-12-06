@@ -19,8 +19,6 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
     Thread mainThread;
     SpaceShip_Player spaceShip_player;
 
-    Rocket_List spaceShip_rocket;
-
     // ---------- Lists ----------
     SpaceShip_Battalion spaceShip_battalion;
     Rocket_List rocketList;
@@ -43,18 +41,11 @@ public class SpaceInvaders_Panel extends JPanel implements Runnable {
         mainThread.start();
 
         createNewSpaceShip_Player();
-        addNewSpaceShip_Alien();
     }
 
     public void createNewSpaceShip_Player () {
         spaceShip_player = new SpaceShip_Player();
         spaceShip_player.start();
-    }
-
-    public void addNewSpaceShip_Alien () {
-//        SpaceShip_Alien spaceShip_alien = new SpaceShip_Alien();
-//        spaceShip_alien.start();
-//        spaceShip_battalion.addNewSpaceShip_Alien(spaceShip_alien);
     }
 
     public void createNewSpaceShip_Rocket () {
